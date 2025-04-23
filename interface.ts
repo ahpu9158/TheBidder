@@ -37,3 +37,27 @@ interface User {
     __v: number;
   }
   
+
+export interface BidderReport {
+    _id: string;
+    title: string;
+    reporter: User;
+    theBidder: User[];
+    reason: string;
+    voted: User[];
+    type: string;
+}
+
+export interface SimplifiedRoomData {
+    _id: string;
+    name: string;
+    description: string;
+    host: User;
+    members: string[]; // Array of user IDs
+    scoreBoard: {
+        user: string; // User ID
+        score: number;
+        _id: string;
+    }[];
+    __v: number;
+}

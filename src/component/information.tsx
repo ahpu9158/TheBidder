@@ -1,8 +1,10 @@
 'use client';
 import { RoomData } from "../../interface";
 import ScoreBoard from "./ScoreBoard";
+import { BidderReport } from "../../interface";
+import ReportBrief from "./ReportBreif";
 
-export default function Information({ roomData, userID, userRole }: { roomData: RoomData, userID: string, userRole: string }) {
+export default function Information({ roomData, userID, userRole, reportData }: { roomData: RoomData, userID: string, userRole: string, reportData: BidderReport[] }) {
     const members = roomData.members;
     const isUserInRoom = members.some(member => member._id === userID) || userRole === "admin";
     console.log(userRole);
@@ -46,8 +48,11 @@ export default function Information({ roomData, userID, userRole }: { roomData: 
                     </button>
                     <h2 className="text-2xl font-semibold mb-2 text-red-700">Reporting Bidder</h2>
                     <p className="text-sm text-gray-700 italic">
-                        No reports yet...
+                        
                     </p>
+                    {reportData.map((report, index) => (
+                        <ReportBrief key={index} report={report} />
+                    ))}
                 </div>
             </div>
         </div>
