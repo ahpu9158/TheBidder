@@ -3,12 +3,18 @@ import { RoomData } from "../../interface";
 import ScoreBoard from "./ScoreBoard";
 import { BidderReport } from "../../interface";
 import ReportBrief from "./ReportBreif";
+import { useState } from "react";
+import ReportForm from "./ReportFrom";
+import ReportList from "./ReportList";
 
-export default function Information({ roomData, userID, userRole, reportData }: { roomData: RoomData, userID: string, userRole: string, reportData: BidderReport[] }) {
+export default function Information({ roomData, userID, userRole, reportData,token }: { roomData: RoomData, userID: string, userRole: string, reportData: BidderReport[], token: string }) {
+    const [showModal, setShowModal] = useState(false);
+
     const members = roomData.members;
     const isUserInRoom = members.some(member => member._id === userID) || userRole === "admin";
     console.log(userRole);
     console.log(isUserInRoom);
+
 
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-b from-black via-gray-900 to-black px-10 py-8 text-white">
@@ -43,18 +49,32 @@ export default function Information({ roomData, userID, userRole, reportData }: 
                 </div>
 
                 <div className="flex flex-col bg-gray-100 text-black rounded-2xl shadow-xl px-10 py-8 w-1/3">
-                    <button className="bg-red-600 hover:bg-red-800 transition-all border-4 border-amber-200 w-40 h-16 text-xl font-bold text-white rounded-full shadow-md mb-6 transform hover:scale-105 active:scale-95 duration-300">
+                    <button className="bg-red-600 hover:bg-red-800 transition-all border-4 border-amber-200 w-40 h-16 text-xl font-bold text-white rounded-full shadow-md mb-6 transform hover:scale-105 active:scale-95 duration-300"
+                    onClick={() => setShowModal(true)}>
                         New Report
                     </button>
                     <h2 className="text-2xl font-semibold mb-2 text-red-700">Reporting Bidder</h2>
                     <p className="text-sm text-gray-700 italic">
                         
                     </p>
-                    {reportData.map((report, index) => (
-                        <ReportBrief key={index} report={report} />
-                    ))}
+                    <ReportList reportData={reportData} userId={userID} token={token} />
+
                 </div>
             </div>
+
+            {showModal && (
+                <div className="absolute top-12 right-0 z-50 w-[28rem] bg-white border-2 border-red-400 rounded-2xl shadow-2xl p-4">
+                    <div className="flex justify-end">
+                        <button
+                            onClick={() => setShowModal(false)}
+                            className="text-black hover:text-red-600 text-xl font-bold"
+                        >
+                            ✖
+                        </button>
+                    </div>
+                    <ReportForm roomData={roomData} token={token} />
+                </div>
+            )}
         </div>
     );
 }

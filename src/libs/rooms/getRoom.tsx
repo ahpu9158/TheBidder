@@ -1,6 +1,8 @@
+import BACKEND_URL from "../config";
+
 export default async function getRoom(id:string, token: string | undefined) {
     
-    const response = await fetch(`http://localhost:5000/api/v1/rooms/${id}`,{
+    const response = await fetch(`${BACKEND_URL}/api/v1/rooms/${id}`,{
         method: "GET",
         headers: {
             "Content-Type": "application/json",

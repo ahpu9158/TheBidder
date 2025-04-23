@@ -6,11 +6,13 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/authOptions";
 
 
-type Props = {
-    params: { rid: string };
-};
+interface RoomPageProps {
+    params: {
+      rid: string;
+    };
+  }
 
-export default async function Room({ params }: Props) {
+export default async function Room({ params }: RoomPageProps) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.token) {
         return <p className="text-center text-gray-500">Unauthorized. Please log in.</p>;
@@ -20,7 +22,8 @@ export default async function Room({ params }: Props) {
 
     return (
         <div>
-            <Information roomData={roomData.data} reportData={roomData.reports} userID={session.user._id} userRole = {session.user.role} />
+            <Information roomData={roomData.data} reportData={roomData.reports} userID={session.user._id} userRole = {session.user.role} 
+                            token={session?.user?.token}/>
             {JSON.stringify(roomData, null, 2)}
         </div>
     )
