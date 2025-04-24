@@ -6,19 +6,19 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/authOptions";
 
 
-interface RoomPageProps {
-    params: {
-      rid: string;
-    };
-  }
 
-export default async function Room({ params }: RoomPageProps) {
+export default async function Room(  props: {
+    params: Promise<{ rid: string }>;
+  }
+) {
+    const { rid } = await props.params;
+
     const session = await getServerSession(authOptions);
     if (!session?.user?.token) {
         return <p className="text-center text-gray-500">Unauthorized. Please log in.</p>;
     }
-    
-    const roomData = await getRoom(params.rid, session?.user?.token);
+
+    const roomData = await getRoom(rid, session?.user?.token);
 
     return (
         <div>
