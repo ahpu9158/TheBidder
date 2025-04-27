@@ -34,9 +34,6 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextAuthProvider session={nextAuthSession}>
-        <div className="flex flex-col h-16 bg-gray-100">  
-
-        </div>
           {children}         
         </NextAuthProvider>
       </body>
