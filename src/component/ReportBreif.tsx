@@ -23,7 +23,7 @@ const typeStyles = {
     },
 };
 
-export default function ReportBrief({ report, token }: { report: BidderReport, token: string }) {
+export default function ReportBrief({ report, token, inRoom, userID }: { report: BidderReport, token: string, inRoom:Boolean, userID:String }) {
     const { type, voted, theBidder } = report;
     const style = typeStyles[type as keyof typeof typeStyles] || typeStyles.annoying;
 
@@ -84,12 +84,24 @@ export default function ReportBrief({ report, token }: { report: BidderReport, t
 
                 <p className="text-xs text-black italic">{report.reason}</p>
 
-                <button
-                    onClick={handleVote}
-                    className="text-xs font-bold text-white bg-gradient-to-r from-red-500 to-red-700 px-3 py-1 mt-1 w-fit rounded-full hover:scale-105 transition-transform"
-                >
-                    VOTE
-                </button>
+                {inRoom ? (
+                    voted.some((v: any) => v._id === userID) ? (
+                        <button
+                            disabled
+                            className="text-xs font-bold text-gray-500 bg-gray-300 px-3 py-1 mt-1 w-fit rounded-full cursor-not-allowed"
+                        >
+                            VOTED
+                        </button>
+                    ) : (
+                        <button
+                            onClick={handleVote}
+                            className="text-xs font-bold text-white bg-gradient-to-r from-red-500 to-red-700 px-3 py-1 mt-1 w-fit rounded-full hover:scale-105 transition-transform"
+                        >
+                            VOTE
+                        </button>
+                    )
+                ) : null}
+                
             </div>
 
             

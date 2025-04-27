@@ -4,6 +4,7 @@ import getRoom from '@/libs/rooms/getRoom'
 import Information from '@/component/information'
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/authOptions";
+import getUserProfile from '@/libs/Auth/getUserProfile';
 
 
 
@@ -14,17 +15,23 @@ export default async function Room(  props: {
     const { rid } = await props.params;
 
     const session = await getServerSession(authOptions);
-    if (!session?.user?.token) {
-        return <p className="text-center text-gray-500">Unauthorized. Please log in.</p>;
-    }
+
+    let userProfile = null;
+          if(session?.user?.token) {
+            userProfile = await getUserProfile(session.user.token);
+        }
 
     const roomData = await getRoom(rid, session?.user?.token);
 
+
     return (
         <div>
-            <Information roomData={roomData.data} reportData={roomData.reports} userID={session.user._id} userRole = {session.user.role} 
-                            token={session?.user?.token}/>
-            {JSON.stringify(roomData, null, 2)}
+            <Information 
+            roomData={roomData?.data} 
+            reportData={roomData?.reports} 
+            token={session?.user?.token || ''} 
+            userProfile={userProfile?.data || { name: 'Anonymous', username: 'guess', role: 'guest' }}
+            />
         </div>
     )
 }

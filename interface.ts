@@ -15,10 +15,11 @@ export interface Report {
     jury: number
 }
 
-interface User {
+export interface User {
     _id: string;
     name: string;
     username: string;
+    role: string;
   }
   
   export interface ScoreBoardEntry {

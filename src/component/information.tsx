@@ -1,5 +1,5 @@
 'use client';
-import { RoomData } from "../../interface";
+import { RoomData, User } from "../../interface";
 import ScoreBoard from "./ScoreBoard";
 import { BidderReport } from "../../interface";
 import ReportBrief from "./ReportBreif";
@@ -7,12 +7,11 @@ import { useState } from "react";
 import ReportForm from "./ReportFrom";
 import ReportList from "./ReportList";
 
-export default function Information({ roomData, userID, userRole, reportData,token }: { roomData: RoomData, userID: string, userRole: string, reportData: BidderReport[], token: string }) {
-    const [showModal, setShowModal] = useState(false);
 
+export default function Information({ roomData, reportData,token, userProfile }: { roomData: RoomData, reportData: BidderReport[], token: string, userProfile: User }) {
+    const [showModal, setShowModal] = useState(false);
     const members = roomData.members;
-    const isUserInRoom = members.some(member => member._id === userID) || userRole === "admin";
-    console.log(userRole);
+    const isUserInRoom = members.some(member => member._id === userProfile._id) || userProfile.role === "admin";
     console.log(isUserInRoom);
 
 
@@ -34,12 +33,12 @@ export default function Information({ roomData, userID, userRole, reportData,tok
                 <div className="text-right">
                     {isUserInRoom ? (
                         <div className="text-lg mb-4 animate-pulse text-green-400 font-semibold">
-                            Welcome back, warrior.
+                            Welcome back {userProfile.name}
                         </div>
-                    ) : null}
-                    <button className="bg-purple-700 hover:bg-purple-900 transition-all border-4 border-amber-300 w-40 h-16 text-xl font-bold text-white rounded-full shadow-lg transform hover:scale-105 active:scale-95 duration-300">
-                        Join Room
-                    </button>
+                    ) : (<button className="bg-purple-700 hover:bg-purple-900 transition-all border-4 border-amber-300 w-40 h-16 text-xl font-bold text-white rounded-full shadow-lg transform hover:scale-105 active:scale-95 duration-300">
+                    View as Guess
+                </button>)}
+                    
                 </div>
             </div>
 
@@ -53,11 +52,11 @@ export default function Information({ roomData, userID, userRole, reportData,tok
                     onClick={() => setShowModal(true)}>
                         New Report
                     </button>
-                    <h2 className="text-2xl font-semibold mb-2 text-red-700">Reporting Bidder</h2>
+                    <h2 className="text-2xl font-semibold mb-2 text-red-700">Reports</h2>
                     <p className="text-sm text-gray-700 italic">
                         
                     </p>
-                    <ReportList reportData={reportData} userId={userID} token={token} />
+                    <ReportList reportData={reportData} userId={userProfile._id} token={token} inRoom={isUserInRoom}/>
 
                 </div>
             </div>
@@ -72,7 +71,11 @@ export default function Information({ roomData, userID, userRole, reportData,tok
                             ✖
                         </button>
                     </div>
-                    <ReportForm roomData={roomData} token={token} />
+                    {
+                        isUserInRoom ? (<ReportForm roomData={roomData} token={token} />):
+                        (<div className="text-center text-red-600 font-bold text-lg">You are not a member of this room.</div>)
+                    }
+                    
                 </div>
             )}
         </div>
