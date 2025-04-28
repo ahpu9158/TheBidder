@@ -6,10 +6,11 @@ import ReportBrief from "./ReportBreif";
 import { useState } from "react";
 import ReportForm from "./ReportFrom";
 import ReportList from "./ReportList";
-
+import BannerAd from "./BannerAds";
 
 export default function Information({ roomData, reportData,token, userProfile }: { roomData: RoomData, reportData: BidderReport[], token: string, userProfile: User }) {
     const [showModal, setShowModal] = useState(false);
+    const [showReason, setShowReason] = useState(false)
     const members = roomData.members;
     const isUserInRoom = members.some(member => member._id === userProfile._id) || userProfile.role === "admin";
     console.log(isUserInRoom);
@@ -59,7 +60,13 @@ export default function Information({ roomData, reportData,token, userProfile }:
                     <ReportList reportData={reportData} userId={userProfile._id} token={token} inRoom={isUserInRoom}/>
 
                 </div>
+
+                <BannerAd src="/img/Nil.jpg"/>
+
+               
             </div>
+
+            
 
             {showModal && (
                 <div className="absolute top-12 right-0 z-50 w-[28rem] bg-white border-2 border-red-400 rounded-2xl shadow-2xl p-4">
