@@ -18,6 +18,7 @@ export default function ReportList({
     const [showVoted, setShowVoted] = useState(false); 
     const filteredReports = reportData.filter((report) => {
         const votedArray = Array.isArray(report.voted) ? report.voted : [];
+        
         return showVoted
             ? votedArray.some((voter: { _id: string; }) => voter._id === userId)
             : !votedArray.some((voter: { _id: string; }) => voter._id === userId);

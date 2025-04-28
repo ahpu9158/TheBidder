@@ -30,7 +30,7 @@ export default async function Room(  props: {
             roomData={roomData?.data} 
             reportData={roomData?.reports} 
             token={session?.user?.token || ''} 
-            userProfile={userProfile?.data || { name: 'Anonymous', username: 'guess', role: 'guest' }}
+            userProfile={userProfile?.data || { name: 'Anonymous', username: 'guest', role: 'guest' }}
             />
         </div>
     )
