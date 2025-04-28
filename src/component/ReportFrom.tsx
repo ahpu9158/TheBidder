@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { RoomData } from "../../interface";
 import createReport from "@/libs/reports/createReports";
+import Swal from "sweetalert2";
 
 export default function ReportForm({ roomData, token }: { roomData: RoomData, token: string }) {
     const [title, setTitle] = useState("");
@@ -42,9 +43,15 @@ export default function ReportForm({ roomData, token }: { roomData: RoomData, to
         // Simulated API submission
         setSubmittedData(reportData);
         // Refresh the page or reset the form state after submission
-        setTimeout(() => {
+        Swal.fire({
+            icon: "success",
+            title: "Report Submitted!",
+            text: "Your report has been submitted successfully.",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "OK",
+        }).then(() => {
             window.location.reload();
-        }, 2000);
+        });
 
         // Optional: Clear form after submission
         // setTitle(""); setReason(""); setType("annoying"); setBidders([]); setSelectedBidder("");

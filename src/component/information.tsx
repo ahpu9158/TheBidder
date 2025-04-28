@@ -36,7 +36,7 @@ export default function Information({ roomData, reportData,token, userProfile }:
                             Welcome back {userProfile.name}
                         </div>
                     ) : (<button className="bg-purple-700 hover:bg-purple-900 transition-all border-4 border-amber-300 w-40 h-16 text-xl font-bold text-white rounded-full shadow-lg transform hover:scale-105 active:scale-95 duration-300">
-                    View as Guess
+                    View as guest
                 </button>)}
                     
                 </div>

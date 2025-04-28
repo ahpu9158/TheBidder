@@ -47,6 +47,7 @@ export interface BidderReport {
     reason: string;
     voted: User[];
     type: string;
+    createdAt: Date
 }
 
 export interface SimplifiedRoomData {
